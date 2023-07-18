@@ -113,6 +113,7 @@ public class Model extends Observable {
         // TODO: Modify this.board (and perhaps this.score) to account
         // for the tilt to the Side SIDE. If the board changed, set the
         // changed local variable to true.
+        changed = moveClosely(side, changed);
 
         checkGameOver();
         if (changed) {
@@ -120,6 +121,43 @@ public class Model extends Observable {
         }
         return changed;
     }
+
+    public boolean moveClosely(Side side, boolean changed){
+        board.startViewingFrom(Side.opposite(side));
+        for (int c = 0; c < board.size(); c++){
+            boolean recentlyMerged = false;
+            int s = score;
+            for (int r = 0; r < board.size(); r++){
+                if (board.tile(c, r) != null){
+                    if(moveDown(c, r, side, false, recentlyMerged)){
+                        changed = true;
+                        recentlyMerged = s != score && !recentlyMerged;
+                    }
+                }
+            }
+        }
+        board.startViewingFrom(Side.NORTH);
+        return changed;
+    }
+
+    public boolean moveDown(int c, int r, Side side, boolean changed, boolean recentlyMerged){
+        Tile t = board.tile(c, r);
+        if (r == 0){
+            return changed;
+        } else {
+            Tile tBelow = board.tile(c, r-1);
+            if (tBelow == null){
+                board.move(c, r-1, t);
+                return moveDown(c, r-1, side, true, recentlyMerged);
+            } else if (tBelow.value() == t.value() && ! recentlyMerged){
+                board.move(c, r-1, t);
+                score += 2 * tBelow.value();
+                return true;
+            }
+        }
+        return changed;
+    }
+
 
     /** Checks if the game is over and sets the gameOver variable
      *  appropriately.
@@ -138,6 +176,13 @@ public class Model extends Observable {
      * */
     public static boolean emptySpaceExists(Board b) {
         // TODO: Fill in this function.
+        for (int i = 0; i < b.size(); i++){
+            for (int j = 0; j < b.size(); j++){
+                if (b.tile(i, j) == null){
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -148,6 +193,13 @@ public class Model extends Observable {
      */
     public static boolean maxTileExists(Board b) {
         // TODO: Fill in this function.
+        for (int i = 0; i < b.size(); i++){
+            for (int j = 0; j < b.size(); j++){
+                if (b.tile(i, j) != null && b.tile(i, j).value() == MAX_PIECE){
+                        return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -159,7 +211,45 @@ public class Model extends Observable {
      */
     public static boolean atLeastOneMoveExists(Board b) {
         // TODO: Fill in this function.
+        if (emptySpaceExists(b)) {
+            return true;
+        } else if (maxTileExists(b)) {
+            return true;
+        } else if (adjacentSameValueExists(b)) {
+            return true;
+        }
         return false;
+    }
+
+    public static boolean adjacentSameValueExists(Board b){
+        for (int i = 0; i < b.size(); i++) {
+            for (int j = 0; j < b.size(); j++) {
+                for (Tile t1 : adjacentValues(b.tile(i, j), b)) {
+                    if (t1 != null && t1.value() == b.tile(i, j).value()) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public static Tile[] adjacentValues(Tile t, Board b){
+        Tile[] result = new Tile[4];
+        int[][] help = new int[][] {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+        int j = 0;
+        for (int[] i: help){
+            int newCol = t.col() + i[0];    int newRow = t.row() + i[1];
+            if (0 <= newCol && b.size() > newCol
+                    && 0 <= newRow && b.size() > newRow){
+                result[j] = b.tile(newCol, newRow);
+            }else {
+                result[j] = null;
+            }
+            j++;
+        }
+//      System.out.println(result[0]);
+        return result;
     }
 
 
