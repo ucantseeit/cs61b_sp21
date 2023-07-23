@@ -1,5 +1,7 @@
 package deque;
 
+import java.util.Iterator;
+
 public class ArrayDeque<Item> implements Deque<Item> {
     private int size;
     private int nextFirst;
@@ -111,5 +113,30 @@ public class ArrayDeque<Item> implements Deque<Item> {
             System.out.print(" ");
         }
         System.out.print(this.get(size-1));
+    }
+
+    @Override
+    public Iterator<Item> iterator() {
+        return new ADIterator();
+    }
+
+    private class ADIterator implements Iterator<Item>{
+        int ptr;
+        public ADIterator(){
+            ptr = 0;
+        }
+
+        public boolean hasNext(){
+            return ptr < size;
+        }
+
+        public Item next(){
+            Item result;
+            if(nextFirst+1+ptr < len){
+                result = (Item) items[nextFirst+1+ptr];
+            }else result =  (Item) items[ptr - (nextFirst + 1)];
+            ptr += 1;
+            return result;
+        }
     }
 }

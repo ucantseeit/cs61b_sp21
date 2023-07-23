@@ -1,6 +1,5 @@
 package deque;
-
-import net.sf.saxon.om.Item;
+import java.util.Iterator;
 
 public class LinkedListDeque<Stuff> implements Deque<Stuff> {
     private class StuffNode{
@@ -86,6 +85,31 @@ public class LinkedListDeque<Stuff> implements Deque<Stuff> {
         sentinel.pre = sentinel.pre.pre;
         sentinel.pre.next = sentinel;
         return result;
+    }
+
+    public Iterator<Stuff> iterator(){
+        return new LLDIterator();
+    }
+
+    private class LLDIterator implements Iterator<Stuff> {
+        public int ptr;
+        public LLDIterator(){
+            ptr = 0;
+        }
+
+        public boolean hasNext(){
+            return ptr < size;
+        }
+
+        @Override
+        public Stuff next() {
+            StuffNode target = sentinel.next;
+            for (int i = 0; i < ptr; i++){
+                target = target.next;
+            }
+            ptr += 1;
+            return target.item;
+        }
     }
 
 }
