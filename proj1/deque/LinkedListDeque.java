@@ -1,6 +1,8 @@
 package deque;
 
-public class LinkedListDeque<Stuff> {
+import net.sf.saxon.om.Item;
+
+public class LinkedListDeque<Stuff> implements Deque<Stuff> {
     private class StuffNode{
         public Stuff item;
         public StuffNode next;
@@ -32,10 +34,6 @@ public class LinkedListDeque<Stuff> {
         sentinel = new StuffNode();
     }
 
-    public boolean isEmpty(){
-        return sentinel.next == sentinel;
-    }
-
     public int size(){
         return size;
     }
@@ -52,7 +50,7 @@ public class LinkedListDeque<Stuff> {
     }
     
     public Stuff get(int i){
-        StuffNode p = sentinel;
+        StuffNode p = sentinel.next;
         while(i != 0){
             p = p.next;
             i -= 1;
