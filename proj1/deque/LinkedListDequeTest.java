@@ -119,6 +119,7 @@ public class LinkedListDequeTest {
         for (int i = 0; i < 100; i++) {
             lld1.addLast(i);
         }
+        lld1.printDeque();
 
         for (double i = 0; i < 50; i++) {
             assertEquals("Should have the same value", i, (double) lld1.removeFirst(), 0.0);

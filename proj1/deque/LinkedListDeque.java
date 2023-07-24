@@ -33,21 +33,25 @@ public class LinkedListDeque<Stuff> implements Deque<Stuff> {
         sentinel = new StuffNode();
     }
 
+    @Override
     public int size(){
         return size;
     }
 
+    @Override
     public void addFirst(Stuff x){
         size += 1;
         sentinel.next = new StuffNode(x, sentinel.next);
         sentinel.next.pre = sentinel;
     }
 
+    @Override
     public void addLast(Stuff x){
         size += 1;
         sentinel.pre = new StuffNode(x, sentinel.pre, sentinel);
     }
-    
+
+    @Override
     public Stuff get(int i){
         StuffNode p = sentinel.next;
         while(i != 0){
@@ -55,6 +59,17 @@ public class LinkedListDeque<Stuff> implements Deque<Stuff> {
             i -= 1;
         }
         return p.item;
+    }
+
+    public Stuff getRecursive(int i){
+        return helper(sentinel.next, i);
+    }
+
+    private Stuff helper(StuffNode ptr, int i){
+        if (i == 0) {
+            return ptr.item;
+        }
+        return helper(sentinel.next, i - 1);
     }
 
     public void printDeque(){
@@ -101,7 +116,6 @@ public class LinkedListDeque<Stuff> implements Deque<Stuff> {
             return ptr < size;
         }
 
-        @Override
         public Stuff next() {
             StuffNode target = sentinel.next;
             for (int i = 0; i < ptr; i++){
