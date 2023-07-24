@@ -10,7 +10,7 @@ public class ArrayDeque<Item> implements Deque<Item> {
     private int len;
 
 
-    public ArrayDeque(){
+    public ArrayDeque() {
         size = 0;
         nextLast = 4;
         nextFirst = 3;
@@ -18,7 +18,7 @@ public class ArrayDeque<Item> implements Deque<Item> {
         len = items.length;
     }
 
-    public int next(int x, int length1){
+    public int next(int x, int length1) {
         if (x != length1-1){
             return x+1;
         }else return 0;
@@ -30,7 +30,7 @@ public class ArrayDeque<Item> implements Deque<Item> {
         }else return length1-1;
     }
 
-    private void relen(int capacity, int nf, int nl){
+    private void relen (int capacity, int nf, int nl) {
         Object[] newItems = new Object[capacity];
         int newLen = newItems.length;
         nextLast =  capacity / 2;
@@ -51,8 +51,8 @@ public class ArrayDeque<Item> implements Deque<Item> {
         len = newLen;
     }
 
-    public void addFirst(Item x){
-        if(size == len){
+    public void addFirst(Item x) {
+        if(size == len) {
             relen(2*size, nextFirst, nextLast);
         }
         size += 1;
@@ -60,8 +60,8 @@ public class ArrayDeque<Item> implements Deque<Item> {
         nextFirst = back(nextFirst, len);
     }
 
-    public void addLast(Item x){
-        if(size == len){
+    public void addLast(Item x) {
+        if(size == len) {
             relen(2*size, nextFirst, nextLast);
         }
         size += 1;
@@ -69,7 +69,7 @@ public class ArrayDeque<Item> implements Deque<Item> {
         nextLast = next(nextLast, len);
     }
 
-    public Item removeFirst(){
+    public Item removeFirst() {
         if(! isEmpty()){
             size -= 1;
             nextFirst = next(nextFirst, len);
@@ -82,8 +82,8 @@ public class ArrayDeque<Item> implements Deque<Item> {
         }else return null;
     }
 
-    public Item removeLast(){
-        if(! isEmpty()){
+    public Item removeLast() {
+        if(! isEmpty()) {
             size -= 1;
             nextLast = back(nextLast, len);
             Item result =  (Item) items[nextLast];
@@ -101,14 +101,14 @@ public class ArrayDeque<Item> implements Deque<Item> {
 
 
 
-    public Item get(int i){
-        if(nextFirst+1+i < len){
+    public Item get(int i) {
+        if(nextFirst+1+i < len) {
             return (Item) items[nextFirst+1+i];
         }else return (Item) items[i - (nextFirst + 1)];
     }
 
-    public void printDeque(){
-        for(int i = 0; i < size-1; i++){
+    public void printDeque() {
+        for(int i = 0; i < size-1; i++) {
             System.out.print(this.get(i));
             System.out.print(" ");
         }
@@ -120,23 +120,38 @@ public class ArrayDeque<Item> implements Deque<Item> {
         return new ADIterator();
     }
 
-    private class ADIterator implements Iterator<Item>{
+    private class ADIterator implements Iterator<Item> {
         int ptr;
-        public ADIterator(){
+        public ADIterator() {
             ptr = 0;
         }
 
-        public boolean hasNext(){
+        public boolean hasNext() {
             return ptr < size;
         }
 
-        public Item next(){
+        public Item next() {
             Item result;
-            if(nextFirst+1+ptr < len){
+            if(nextFirst+1+ptr < len) {
                 result = (Item) items[nextFirst+1+ptr];
-            }else result =  (Item) items[ptr - (nextFirst + 1)];
+            } else result =  (Item) items[ptr - (nextFirst + 1)];
             ptr += 1;
             return result;
+        }
+    }
+
+    public boolean equal(Object o) {
+        if(this == o) {
+            return true;
+        } else if (this.getClass() != o.getClass()) {
+            return false;
+        } else {
+            for (int i = 0; i < size; i ++){
+                if (this.get(i) != ((ArrayDeque<?>) o).get(i)){
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }
