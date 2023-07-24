@@ -1,5 +1,7 @@
 package deque;
 
+import afu.org.checkerframework.checker.oigj.qual.O;
+
 import java.util.Iterator;
 
 public class ArrayDeque<Item> implements Deque<Item> {
@@ -24,8 +26,8 @@ public class ArrayDeque<Item> implements Deque<Item> {
         }else return 0;
     }
 
-    public int back(int x, int length1){
-        if (x != 0){
+    public int back(int x, int length1) {
+        if (x != 0) {
             return x-1;
         }else return length1-1;
     }
@@ -51,6 +53,7 @@ public class ArrayDeque<Item> implements Deque<Item> {
         len = newLen;
     }
 
+    @Override
     public void addFirst(Item x) {
         if(size == len) {
             relen(2*size, nextFirst, nextLast);
@@ -60,6 +63,7 @@ public class ArrayDeque<Item> implements Deque<Item> {
         nextFirst = back(nextFirst, len);
     }
 
+    @Override
     public void addLast(Item x) {
         if(size == len) {
             relen(2*size, nextFirst, nextLast);
@@ -69,8 +73,9 @@ public class ArrayDeque<Item> implements Deque<Item> {
         nextLast = next(nextLast, len);
     }
 
+    @Override
     public Item removeFirst() {
-        if(! isEmpty()){
+        if (! isEmpty()) {
             size -= 1;
             nextFirst = next(nextFirst, len);
             Item result = (Item) items[nextFirst];
@@ -82,33 +87,36 @@ public class ArrayDeque<Item> implements Deque<Item> {
         }else return null;
     }
 
+    @Override
     public Item removeLast() {
-        if(! isEmpty()) {
+        if (! isEmpty()) {
             size -= 1;
             nextLast = back(nextLast, len);
             Item result =  (Item) items[nextLast];
             items[nextLast] = null;
-            if(size * 4 <= len && len >= 16) {
+            if (size * 4 <= len && len >= 16) {
                 relen(len / 2, nextFirst, nextLast);
             }
             return result;
         }else return null;
     }
 
+    @Override
     public int size(){
         return size;
     }
 
 
-
+    @Override
     public Item get(int i) {
-        if(nextFirst+1+i < len) {
+        if (nextFirst+1+i < len) {
             return (Item) items[nextFirst+1+i];
         }else return (Item) items[i - (nextFirst + 1)];
     }
 
+    @Override
     public void printDeque() {
-        for(int i = 0; i < size-1; i++) {
+        for (int i = 0; i < size-1; i++) {
             System.out.print(this.get(i));
             System.out.print(" ");
         }
@@ -132,7 +140,7 @@ public class ArrayDeque<Item> implements Deque<Item> {
 
         public Item next() {
             Item result;
-            if(nextFirst+1+ptr < len) {
+            if (nextFirst+1+ptr < len) {
                 result = (Item) items[nextFirst+1+ptr];
             } else result =  (Item) items[ptr - (nextFirst + 1)];
             ptr += 1;
@@ -140,8 +148,9 @@ public class ArrayDeque<Item> implements Deque<Item> {
         }
     }
 
+    @Override
     public boolean equal(Object o) {
-        if(this == o) {
+        if (this == o) {
             return true;
         } else if (this.getClass() != o.getClass()) {
             return false;

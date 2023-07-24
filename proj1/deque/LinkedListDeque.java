@@ -72,6 +72,7 @@ public class LinkedListDeque<Stuff> implements Deque<Stuff> {
         return helper(sentinel.next, i - 1);
     }
 
+    @Override
     public void printDeque(){
         StuffNode p = sentinel.next;
         while(p.next != sentinel){
@@ -82,6 +83,7 @@ public class LinkedListDeque<Stuff> implements Deque<Stuff> {
         System.out.println(p.item);
     }
 
+    @Override
     public Stuff removeFirst(){
         if(! this.isEmpty()){
             size -= 1;
@@ -92,6 +94,7 @@ public class LinkedListDeque<Stuff> implements Deque<Stuff> {
         return result;
     }
 
+    @Override
     public Stuff removeLast(){
         if(! this.isEmpty()){
             size -= 1;
@@ -102,6 +105,7 @@ public class LinkedListDeque<Stuff> implements Deque<Stuff> {
         return result;
     }
 
+    @Override
     public Iterator<Stuff> iterator(){
         return new LLDIterator();
     }
@@ -111,6 +115,7 @@ public class LinkedListDeque<Stuff> implements Deque<Stuff> {
         public LLDIterator(){
             ptr = 0;
         }
+
 
         public boolean hasNext(){
             return ptr < size;
@@ -126,6 +131,7 @@ public class LinkedListDeque<Stuff> implements Deque<Stuff> {
         }
     }
 
+    @Override
     public boolean equal(Object o) {
         if(this == o) {
             return true;
