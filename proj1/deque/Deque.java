@@ -13,6 +13,4 @@ public interface Deque<Item> {
     public Item removeFirst();
     public Item removeLast();
     public Item get(int index);
-    public Iterator<Item> iterator();
-    public boolean equal(Object o);
 }

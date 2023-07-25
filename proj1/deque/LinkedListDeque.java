@@ -131,7 +131,7 @@ public class LinkedListDeque<Stuff> implements Deque<Stuff>, Iterable<Stuff> {
         }
     }
 
-    @Override
+
     public boolean equal(Object o) {
         if(this == o) {
             return true;
