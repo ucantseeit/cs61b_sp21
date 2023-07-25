@@ -132,14 +132,14 @@ public class LinkedListDeque<Stuff> implements Deque<Stuff>, Iterable<Stuff> {
     }
 
 
-    public boolean equal(Object o) {
+    public boolean equals(Object o) {
         if(this == o) {
             return true;
-        } else if (this.getClass() != o.getClass()) {
+        } else if (! (o instanceof Deque)) {
             return false;
         } else {
-            for (int i = 0; i < size; i ++){
-                if (this.get(i) != ((LinkedListDeque<?>) o).get(i)){
+            for (int i = 0; i < size; i++){
+                if (this.get(i) != ((Deque<?>) o).get(i)){
                     return false;
                 }
             }

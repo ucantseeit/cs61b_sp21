@@ -1,5 +1,6 @@
 package deque;
 
+import edu.princeton.cs.algs4.StdRandom;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -121,6 +122,45 @@ public class ArrayDequeTest {
 
         for (double i = 99; i > 49; i--) {
             assertEquals("Should have the same value", i, (double) ad1.removeLast(), 0.0);
+        }
+    }
+
+    @Test
+    public void arrayDequeEqualsLLD(){
+        ArrayDeque<Integer> ad1 = new ArrayDeque<>();
+        LinkedListDeque<Integer> LLD1 = new LinkedListDeque<>();
+        for (int i = 0; i < 100; i++) {
+            ad1.addLast(i);
+            LLD1.addLast(i);
+        }
+        assertEquals(true, ad1.equals(LLD1));
+        assertEquals(true, LLD1.equals(ad1));
+    }
+
+    @Test
+    public void randomTest(){
+        int[] L = new int[5000];
+        int s = 0;
+        ArrayDeque<Integer> L1 = new ArrayDeque<>();
+        int N = 5000;
+        for (int i = 0; i < N; i += 1) {
+            int operationNumber = StdRandom.uniform(0, 3);
+            if (operationNumber == 0) {
+                // addLast
+                int randVal = StdRandom.uniform(0, 100);
+                L[s] = randVal;
+                s = s + 1;
+                L1.addLast(randVal);
+            } else if (operationNumber == 1) {
+                // size
+                assertEquals(s, L1.size());
+            } else if (operationNumber == 2) {
+                // get
+                if(s > 0){
+                    int randVal = StdRandom.uniform(0, s);
+                    assertEquals(L[randVal], (int)L1.get(randVal));
+                }
+            }
         }
     }
 
