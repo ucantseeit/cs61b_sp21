@@ -1,23 +1,23 @@
 package deque;
 import java.util.Iterator;
 
-public class LinkedListDeque<Stuff> implements Deque<Stuff>, Iterable<Stuff> {
+public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
     private class StuffNode {
-        public Stuff item;
-        public StuffNode next;
-        public StuffNode pre;
-        public StuffNode() {
+        private final T item;
+        private StuffNode next;
+        private StuffNode pre;
+        StuffNode() {
             item = null;
             next = this;
             pre = this;
         }
-        public StuffNode(Stuff x, StuffNode n) {
+        StuffNode(T x, StuffNode n) {
             item = x;
             next = n;
             n.pre = this;
         }
 
-        public StuffNode(Stuff x, StuffNode last, StuffNode n) {
+        StuffNode(T x, StuffNode last, StuffNode n) {
             item = x;
             next = n;
             last.next = this;
@@ -26,8 +26,8 @@ public class LinkedListDeque<Stuff> implements Deque<Stuff>, Iterable<Stuff> {
         }
     }
 
-    public StuffNode sentinel;
-    public int size;
+    private StuffNode sentinel;
+    private int size;
     public LinkedListDeque() {
         size = 0;
         sentinel = new StuffNode();
@@ -39,33 +39,33 @@ public class LinkedListDeque<Stuff> implements Deque<Stuff>, Iterable<Stuff> {
     }
 
     @Override
-    public void addFirst(Stuff x) {
+    public void addFirst(T x) {
         size += 1;
         sentinel.next = new StuffNode(x, sentinel.next);
         sentinel.next.pre = sentinel;
     }
 
     @Override
-    public void addLast(Stuff x) {
+    public void addLast(T x) {
         size += 1;
         sentinel.pre = new StuffNode(x, sentinel.pre, sentinel);
     }
 
     @Override
-    public Stuff get(int i) {
+    public T get(int i) {
         StuffNode p = sentinel.next;
-        while(i != 0){
+        while (i != 0) {
             p = p.next;
             i -= 1;
         }
         return p.item;
     }
 
-    public Stuff getRecursive(int i) {
+    public T getRecursive(int i) {
         return helper(sentinel.next, i);
     }
 
-    private Stuff helper(StuffNode ptr, int i) {
+    private T helper(StuffNode ptr, int i) {
         if (i == 0) {
             return ptr.item;
         }
@@ -84,35 +84,35 @@ public class LinkedListDeque<Stuff> implements Deque<Stuff>, Iterable<Stuff> {
     }
 
     @Override
-    public Stuff removeFirst() {
+    public T removeFirst() {
         if (!this.isEmpty()) {
             size -= 1;
         }
-        Stuff result = sentinel.next.item;
+        T result = sentinel.next.item;
         sentinel.next = sentinel.next.next;
         sentinel.next.pre = sentinel;
         return result;
     }
 
     @Override
-    public Stuff removeLast() {
-        if(! this.isEmpty()) {
+    public T removeLast() {
+        if (!this.isEmpty()) {
             size -= 1;
         }
-        Stuff result = sentinel.pre.item;
+        T result = sentinel.pre.item;
         sentinel.pre = sentinel.pre.pre;
         sentinel.pre.next = sentinel;
         return result;
     }
 
     @Override
-    public Iterator<Stuff> iterator() {
+    public Iterator<T> iterator() {
         return new LLDIterator();
     }
 
-    private class LLDIterator implements Iterator<Stuff> {
-        public int ptr;
-        public LLDIterator() {
+    private class LLDIterator implements Iterator<T> {
+        private int ptr;
+        LLDIterator() {
             ptr = 0;
         }
 
@@ -121,9 +121,9 @@ public class LinkedListDeque<Stuff> implements Deque<Stuff>, Iterable<Stuff> {
             return ptr < size;
         }
 
-        public Stuff next() {
+        public T next() {
             StuffNode target = sentinel.next;
-            for (int i = 0; i < ptr; i++){
+            for (int i = 0; i < ptr; i++) {
                 target = target.next;
             }
             ptr += 1;
@@ -133,15 +133,15 @@ public class LinkedListDeque<Stuff> implements Deque<Stuff>, Iterable<Stuff> {
 
 
     public boolean equals(Object o) {
-        if(this == o) {
+        if (this == o) {
             return true;
-        } else if (! (o instanceof Deque)) {
+        } else if (!(o instanceof Deque)) {
             return false;
         } else if (size != ((Deque<?>) o).size()) {
             return false;
         } else {
-            for (int i = 0; i < size; i++){
-                if (! this.get(i).equals(((Deque<?>) o).get(i))){
+            for (int i = 0; i < size; i++) {
+                if (!this.get(i).equals(((Deque<?>) o).get(i))){
                     return false;
                 }
             }

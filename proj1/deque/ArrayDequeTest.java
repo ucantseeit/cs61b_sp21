@@ -151,7 +151,7 @@ public class ArrayDequeTest {
                 L1.addLast(randVal);
             } else if (operationNumber == 1) {
                 // size
-                assertEquals(L.size, L1.size());
+                assertEquals(L.size(), L1.size());
             } else if (operationNumber == 2) {
                 // addFirst
                 int randVal = StdRandom.uniform(0, 100);
@@ -159,8 +159,8 @@ public class ArrayDequeTest {
                 L1.addFirst(randVal);
             } else if (operationNumber == 3) {
                 // get
-                if(L.size > 0){
-                    int randVal = StdRandom.uniform(0, L.size);
+                if(L.size() > 0){
+                    int randVal = StdRandom.uniform(0, L.size());
                     System.out.println(randVal);
                     L1.printDeque();
                     assertEquals(L.getRecursive(randVal), L1.get(randVal));
