@@ -1,7 +1,7 @@
 package gh2;
 
 // uncomment the following import once you're ready to start this portion
- import deque.Deque;
+import deque.Deque;
 // maybe more imports
 
 //import deque.ArrayDeque;
