@@ -163,7 +163,7 @@ public class ArrayDequeTest {
                     int randVal = StdRandom.uniform(0, L.size);
                     System.out.println(randVal);
                     L1.printDeque();
-                    assertEquals(L1.get(randVal), L1.get(randVal));
+                    assertEquals(L.getRecursive(randVal), L1.get(randVal));
                 }
             }
         }

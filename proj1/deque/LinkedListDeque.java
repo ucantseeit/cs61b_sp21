@@ -2,22 +2,22 @@ package deque;
 import java.util.Iterator;
 
 public class LinkedListDeque<Stuff> implements Deque<Stuff>, Iterable<Stuff> {
-    private class StuffNode{
+    private class StuffNode {
         public Stuff item;
         public StuffNode next;
         public StuffNode pre;
-        public StuffNode(){
+        public StuffNode() {
             item = null;
             next = this;
             pre = this;
         }
-        public StuffNode(Stuff x, StuffNode n){
+        public StuffNode(Stuff x, StuffNode n) {
             item = x;
             next = n;
             n.pre = this;
         }
 
-        public StuffNode(Stuff x, StuffNode last, StuffNode n){
+        public StuffNode(Stuff x, StuffNode last, StuffNode n) {
             item = x;
             next = n;
             last.next = this;
@@ -28,31 +28,31 @@ public class LinkedListDeque<Stuff> implements Deque<Stuff>, Iterable<Stuff> {
 
     public StuffNode sentinel;
     public int size;
-    public LinkedListDeque(){
+    public LinkedListDeque() {
         size = 0;
         sentinel = new StuffNode();
     }
 
     @Override
-    public int size(){
+    public int size() {
         return size;
     }
 
     @Override
-    public void addFirst(Stuff x){
+    public void addFirst(Stuff x) {
         size += 1;
         sentinel.next = new StuffNode(x, sentinel.next);
         sentinel.next.pre = sentinel;
     }
 
     @Override
-    public void addLast(Stuff x){
+    public void addLast(Stuff x) {
         size += 1;
         sentinel.pre = new StuffNode(x, sentinel.pre, sentinel);
     }
 
     @Override
-    public Stuff get(int i){
+    public Stuff get(int i) {
         StuffNode p = sentinel.next;
         while(i != 0){
             p = p.next;
@@ -61,21 +61,21 @@ public class LinkedListDeque<Stuff> implements Deque<Stuff>, Iterable<Stuff> {
         return p.item;
     }
 
-    public Stuff getRecursive(int i){
+    public Stuff getRecursive(int i) {
         return helper(sentinel.next, i);
     }
 
-    private Stuff helper(StuffNode ptr, int i){
+    private Stuff helper(StuffNode ptr, int i) {
         if (i == 0) {
             return ptr.item;
         }
-        return helper(sentinel.next, i - 1);
+        return helper(ptr.next, i - 1);
     }
 
     @Override
-    public void printDeque(){
+    public void printDeque() {
         StuffNode p = sentinel.next;
-        while(p.next != sentinel){
+        while (p.next != sentinel) {
             System.out.print(p.item);
             System.out.print(' ');
             p = p.next;
@@ -84,8 +84,8 @@ public class LinkedListDeque<Stuff> implements Deque<Stuff>, Iterable<Stuff> {
     }
 
     @Override
-    public Stuff removeFirst(){
-        if(! this.isEmpty()){
+    public Stuff removeFirst() {
+        if (!this.isEmpty()) {
             size -= 1;
         }
         Stuff result = sentinel.next.item;
@@ -95,8 +95,8 @@ public class LinkedListDeque<Stuff> implements Deque<Stuff>, Iterable<Stuff> {
     }
 
     @Override
-    public Stuff removeLast(){
-        if(! this.isEmpty()){
+    public Stuff removeLast() {
+        if(! this.isEmpty()) {
             size -= 1;
         }
         Stuff result = sentinel.pre.item;
@@ -106,18 +106,18 @@ public class LinkedListDeque<Stuff> implements Deque<Stuff>, Iterable<Stuff> {
     }
 
     @Override
-    public Iterator<Stuff> iterator(){
+    public Iterator<Stuff> iterator() {
         return new LLDIterator();
     }
 
     private class LLDIterator implements Iterator<Stuff> {
         public int ptr;
-        public LLDIterator(){
+        public LLDIterator() {
             ptr = 0;
         }
 
 
-        public boolean hasNext(){
+        public boolean hasNext() {
             return ptr < size;
         }
 
@@ -136,6 +136,8 @@ public class LinkedListDeque<Stuff> implements Deque<Stuff>, Iterable<Stuff> {
         if(this == o) {
             return true;
         } else if (! (o instanceof Deque)) {
+            return false;
+        } else if (size != ((Deque<?>) o).size()) {
             return false;
         } else {
             for (int i = 0; i < size; i++){
