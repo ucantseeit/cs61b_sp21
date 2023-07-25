@@ -4,11 +4,7 @@ package deque;
 import java.util.Comparator;
 
 public class MaxArrayDeque<T> extends ArrayDeque<T> {
-    private Comparator<T> c;
-
-    public MaxArrayDeque() {
-        c = getDefaultComparator();
-    }
+    private Comparator<T> c = getDefaultComparator();;
 
     public MaxArrayDeque(Comparator<T> o) {
         c = o;
@@ -22,7 +18,7 @@ public class MaxArrayDeque<T> extends ArrayDeque<T> {
         }
     }
 
-    public DefaultComparator getDefaultComparator() {
+    private DefaultComparator getDefaultComparator() {
         return new DefaultComparator();
     }
 
@@ -46,14 +42,4 @@ public class MaxArrayDeque<T> extends ArrayDeque<T> {
         return this.get(maxInd);
     }
 
-    public static void main(String[] args) {
-        MaxArrayDeque<String> mad = new MaxArrayDeque<>();
-        Comparator<String> dc = mad.getDefaultComparator();
-        System.out.println(dc.compare("a", "b"));
-
-        mad.addLast("aaa");
-        mad.addLast("bbb");
-        mad.addLast("ccc");
-        System.out.println(mad.max());
-    }
 }

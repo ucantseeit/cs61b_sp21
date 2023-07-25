@@ -20,7 +20,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         len = items.length;
     }
 
-    public int next(int x, int length1) {
+    private int next(int x, int length1) {
         if (x != length1 - 1) {
             return x + 1;
         } else {
@@ -28,7 +28,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         }
     }
 
-    public int back(int x, int length1) {
+    private int back(int x, int length1) {
         if (x != 0) {
             return x - 1;
         } else {
