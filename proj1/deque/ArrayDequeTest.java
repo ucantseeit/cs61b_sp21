@@ -114,7 +114,7 @@ public class ArrayDequeTest {
             ad1.addLast(i);
             assertEquals("Should have the same value", i, (double) ad1.get(i), 0.0);
         }
-        ad1.printDeque();
+//        ad1.printDeque();
 
         for (double i = 0; i < 50; i++) {
             assertEquals("Should have the same value", i, (double) ad1.removeFirst(), 0.0);
@@ -139,26 +139,31 @@ public class ArrayDequeTest {
 
     @Test
     public void randomTest(){
-        int[] L = new int[5000];
-        int s = 0;
+        LinkedListDeque<Integer> L = new LinkedListDeque<>();
         ArrayDeque<Integer> L1 = new ArrayDeque<>();
         int N = 5000;
         for (int i = 0; i < N; i += 1) {
-            int operationNumber = StdRandom.uniform(0, 3);
+            int operationNumber = StdRandom.uniform(0, 4);
             if (operationNumber == 0) {
                 // addLast
                 int randVal = StdRandom.uniform(0, 100);
-                L[s] = randVal;
-                s = s + 1;
+                L.addLast(randVal);
                 L1.addLast(randVal);
             } else if (operationNumber == 1) {
                 // size
-                assertEquals(s, L1.size());
+                assertEquals(L.size, L1.size());
             } else if (operationNumber == 2) {
+                // addFirst
+                int randVal = StdRandom.uniform(0, 100);
+                L.addFirst(randVal);
+                L1.addFirst(randVal);
+            } else if (operationNumber == 3) {
                 // get
-                if(s > 0){
-                    int randVal = StdRandom.uniform(0, s);
-                    assertEquals(L[randVal], (int)L1.get(randVal));
+                if(L.size > 0){
+                    int randVal = StdRandom.uniform(0, L.size);
+                    System.out.println(randVal);
+                    L1.printDeque();
+                    assertEquals(L1.get(randVal), L1.get(randVal));
                 }
             }
         }

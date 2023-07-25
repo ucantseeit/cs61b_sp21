@@ -111,7 +111,7 @@ public class ArrayDeque<T> implements Deque<T> , Iterable<T> {
     public T get(int i) {
         if (nextFirst + 1 + i < len) {
             return (T) items[nextFirst + 1 + i];
-        }else return (T) items[i - (nextFirst + 1)];
+        }else return (T) items[i - len + (nextFirst + 1)];
     }
 
     @Override
@@ -155,7 +155,7 @@ public class ArrayDeque<T> implements Deque<T> , Iterable<T> {
             return false;
         } else {
             for (int i = 0; i < size; i ++){
-                if (this.get(i) != ((Deque<?>) o).get(i)){
+                if (! this.get(i).equals(((Deque<?>) o).get(i))){
                     return false;
                 }
             }
