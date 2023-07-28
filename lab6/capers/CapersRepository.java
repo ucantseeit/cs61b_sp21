@@ -73,9 +73,10 @@ public class CapersRepository {
      * Chooses dog to advance based on the first non-command argument of args.
      * @param name String name of the Dog whose birthday we're celebrating.
      */
-    public static void celebrateBirthday(String name) {
+    public static void celebrateBirthday(String name) throws IOException {
         // TODO
         Dog BirthdayDog = Dog.fromFile(name);
         BirthdayDog.haveBirthday();
+        BirthdayDog.saveDog();
     }
 }
