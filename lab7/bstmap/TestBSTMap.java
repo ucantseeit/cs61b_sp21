@@ -68,7 +68,8 @@ public class TestBSTMap {
         assertEquals(1, b.size());
         for (int i = 0; i < 455; i++)
             b.put("hi" + i, 1);
-        assertEquals(456, b.size());
+        b.remove("hi");
+        assertEquals(455, b.size());
     }
 
     //assumes get/containskey work
@@ -85,6 +86,20 @@ public class TestBSTMap {
         BSTMap<String, Integer> b = new BSTMap<String, Integer>();
         b.put("hi", null);
         assertTrue(b.containsKey("hi"));
+    }
+
+    @Test
+    public void removeTest() {
+        BSTMap<String, Integer> b = new BSTMap<String, Integer>();
+        b.put("h", 0);
+        b.put("c", 1);
+        b.put("a", 2);
+        b.put("e", 3);
+        b.put("s", 4);
+        b.put("r", 5);
+        b.put("x", 6);
+        Integer r = b.remove("h");
+        assertEquals((Integer) 0, r);
     }
 
 }
