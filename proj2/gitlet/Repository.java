@@ -67,7 +67,7 @@ public class Repository {
     }
 
     /* TODO: fill in the rest of this class. */
-    public static void init() throws IOException {
+    public static void init() {
         if (GITLET_DIR.exists()) {
             System.out.println("A Gitlet version-control system already exists in the current directory.");
         } else {
@@ -175,7 +175,7 @@ public class Repository {
         targetFile.delete();
     }
 
-    public static void commit(String message) throws IOException {
+    public static void commit(String message) {
         String parentHash = generateHash(getHeadCommit());
         Commit newCommit = new Commit(message, parentHash);
         Staging nowStaging = getStaging();
@@ -200,7 +200,7 @@ public class Repository {
         Utils.writeContents(getNowBranch(), newCommitFile.getPath());
     }
 
-    public static void basicCheckout(String fileName) throws IOException {
+    public static void basicCheckout(String fileName) {
         checkoutFromCommitBefore(generateHash(getHeadCommit()), fileName);
     }
 
