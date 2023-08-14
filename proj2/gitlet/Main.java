@@ -11,15 +11,12 @@ public class Main {
      *  <COMMAND> <OPERAND1> <OPERAND2> ... 
      */
     public static void main(String[] args) throws IOException {
-        // TODO: what if args is empty?
         if (args.length == 0) {
-            System.out.println("Please enter a command.");
-            return;
+            throw new GitletException("Please enter a command.");
         }
         String firstArg = args[0];
-        switch(firstArg) {
+        switch (firstArg) {
             case "init":
-                // TODO: handle the `init` command
                 if (noValidateNumArgs(0, args.length - 1)) {
                     System.out.println("Incorrect operands");
                     System.exit(0);
@@ -27,7 +24,6 @@ public class Main {
                 Repository.init();
                 break;
             case "add":
-                // TODO: handle the `add [filename]` command
                 if (noValidateNumArgs(1, args.length - 1)) {
                     System.out.println("Incorrect operands");
                     System.exit(0);
