@@ -6,11 +6,11 @@ import java.util.Spliterator;
 import java.util.function.Consumer;
 
 public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V>{
-    int size;
+    private int size;
 
-    BSTNode sentinel;
+    private BSTNode sentinel;
 
-    boolean isFound = true;
+    private boolean isFound = true;
 
     public BSTMap(){
         sentinel = new BSTNode(null, null);
@@ -163,5 +163,9 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V>{
     public Iterator<K> iterator() {
 //        return new BSTMap.ULLMapIter();
         return null;
+    }
+
+    public void printInOrder(){
+        return;
     }
 }
