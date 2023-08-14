@@ -244,7 +244,6 @@ public class Repository {
     public static void log() {
         List<Commit> allCommits = new ArrayList<>();
         Commit trackCommit = getHeadCommit();
-        System.out.println(trackCommit.parentHash);
         while (trackCommit.parentHash != null) {
             allCommits.add(trackCommit);
             trackCommit = readObject(join(commits, trackCommit.parentHash), Commit.class);
