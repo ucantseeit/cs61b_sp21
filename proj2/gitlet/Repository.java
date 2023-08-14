@@ -112,7 +112,7 @@ public class Repository {
     }
 
     private static String dateToTimeStamp(Date date) {
-        DateFormat dateFormat = new SimpleDateFormat("EEE MMM d HH:mm:ss yyyy Z", Locale.CHINA);
+        DateFormat dateFormat = new SimpleDateFormat("EEE MMM d HH:mm:ss yyyy Z", Locale.US);
         return dateFormat.format(date);
     }
 
@@ -253,7 +253,7 @@ public class Repository {
         for (Commit aCommit : allCommits) {
             System.out.println("===");
             System.out.println("commit " + generateHash(aCommit));
-            System.out.println("Date: " + aCommit.date);
+            System.out.println("Date: " + dateToTimeStamp(aCommit.date));
             System.out.println(aCommit.message);
             System.out.println();
         }
