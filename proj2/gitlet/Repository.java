@@ -8,6 +8,7 @@ import java.util.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+
 import static gitlet.Utils.*;
 
 // TODO: any imports you need here
@@ -39,6 +40,7 @@ public class Repository {
     static File head = Utils.join(ref, "head");
     static File master = Utils.join(ref, "master");
     static File staging = Utils.join(GITLET_DIR, "staging");
+    static File trie = Utils.join(commits, "tries");
 
     static class Blob implements Serializable {
         byte[] content;
@@ -87,6 +89,11 @@ public class Repository {
 
             Staging emptyStaging = new Staging();
             Utils.writeObject(staging, emptyStaging);
+
+
+            Trie trieOfCommitHashes = new Trie();
+            trieOfCommitHashes.put(generateHash(initCommit));
+            Utils.writeObject(trie, trieOfCommitHashes);
         }
     }
 
@@ -198,13 +205,21 @@ public class Repository {
         Utils.writeObject(newCommitFile, newCommit);
 
         Utils.writeContents(getNowBranch(), newCommitFile.getPath());
+
+        Trie trieOfCommitHashes = Utils.readObject(trie, Trie.class);
+        trieOfCommitHashes.put(generateHash(newCommit));
+        trie.delete();
+        writeObject(trie, trieOfCommitHashes);
     }
 
     public static void basicCheckout(String fileName) {
         checkoutFromCommitBefore(generateHash(getHeadCommit()), fileName);
     }
 
-    public static void checkoutFromCommitBefore(String commitHash, String fileName) {
+    public static void checkoutFromCommitBefore(String abrOfCommitHash, String fileName) {
+        Trie trieOfCommitHashes = readObject(trie, Trie.class);
+        String commitHash = trieOfCommitHashes.stringsWithPrefix(abrOfCommitHash).get(0);
+
         if (!join(commits, commitHash).exists()) {
             System.out.println("No commit with that id exists.");
             return;
